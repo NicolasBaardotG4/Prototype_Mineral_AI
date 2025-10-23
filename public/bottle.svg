@@ -1,0 +1,18 @@
+<svg width="260" height="580" viewBox="0 0 260 580" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Bottle placeholder</title>
+  <desc id="desc">Rectangular placeholder for bottle imagery.</desc>
+  <defs>
+    <filter id="shadow" x="-10%" y="-5%" width="120%" height="120%" filterUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+      <feOffset dy="4" />
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.2 0 0 0 0 0.2 0 0 0 0 0.2 0 0 0 0.12 0" />
+      <feBlend in="SourceGraphic" in2="blur" mode="normal" />
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <rect x="16" y="8" width="228" height="548" rx="12" fill="#EDEDED" stroke="#D7D7D7" stroke-width="1" />
+    <text x="130" y="300" text-anchor="middle" font-family="'DM Sans', 'Inter', 'Segoe UI', sans-serif" font-size="24" font-weight="500" fill="#555555" letter-spacing="0.5">
+      Bottle Placeholder
+    </text>
+  </g>
+</svg>
