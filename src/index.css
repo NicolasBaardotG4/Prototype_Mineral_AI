@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: theme('colors.background');
+    color: theme('colors.text');
+    font-family: theme('fontFamily.sans');
+  }
+
+  ::selection {
+    background-color: rgba(194, 160, 80, 0.2);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: theme('fontFamily.display');
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
