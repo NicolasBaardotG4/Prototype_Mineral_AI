@@ -91,24 +91,33 @@ export const ElementsGrid = () => {
   );
 
   return (
-    <article className="flex h-full flex-col gap-4 rounded-card bg-surface/90 p-6 shadow-panel ring-1 ring-divider/40">
-      <div className="space-y-1">
-        <h3 className="text-lg font-semibold text-text">Composition détaillée</h3>
-        <p className="text-sm text-subtle">
-          Naviguez avec les flèches ou touchez pour sélectionner un élément et synchroniser les vues.
+    <article className="flex h-full flex-col rounded-card border border-divider/40 bg-surface px-7 py-8 shadow-panel">
+      <header className="space-y-3">
+        <div className="flex items-start justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.36em] text-muted/80">Matrice complète</p>
+            <h3 className="font-display text-[28px] leading-[1.15] text-text">Cartographie des éléments</h3>
+          </div>
+          <span className="text-xs uppercase tracking-[0.28em] text-muted/70">↑ ↓ ← →</span>
+        </div>
+        <p className="text-sm leading-relaxed text-muted">
+          Survolez ou utilisez le clavier pour mettre en exergue un élément et révéler sa position
+          sur le radar central.
         </p>
-      </div>
+      </header>
       <div
         className={clsx(
-          'grid gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7',
+          'mt-6 grid gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7',
           gridAnimationClass,
         )}
       >
         {ELEMENTS.map((element, index) => {
           const isActive = element.symbol === activeSymbol;
           const isPulse = element.symbol === pulseSymbol;
-          const backgroundClass =
-            element.level >= 8 ? 'bg-accent/15 text-text' : 'bg-background/80';
+          const highlight = element.level >= 8;
+          const backgroundClass = highlight
+            ? 'bg-accent/12 text-text'
+            : 'bg-surfaceMuted/40 text-text';
           const tooltip = `${element.symbol} — ${element.name} (${element.unit}) — Niveau ${element.level}/10 (${getLevelDescriptor(element.level)})`;
 
           return (
@@ -133,10 +142,10 @@ export const ElementsGrid = () => {
                 onClick={() => pinSymbol(isActive ? null : element.symbol)}
                 onKeyDown={(event) => handleKeyNavigation(event, index)}
                 className={clsx(
-                  'group relative aspect-square rounded-[20px] border border-divider/40 p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+                  'group relative aspect-square rounded-[22px] border border-divider/40 p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
                   backgroundClass,
                   isActive
-                    ? 'border-accent/80 shadow-panel'
+                    ? 'border-accent shadow-panel'
                     : 'hover:border-accent/60 hover:shadow-panel',
                   isPulse && 'motion-safe:animate-pulseOutline',
                   prefersReducedMotion ? undefined : 'motion-safe:animate-fade-up',
@@ -147,14 +156,14 @@ export const ElementsGrid = () => {
                     : ({ animationDelay: `${index * 60}ms` } as CSSProperties)
                 }
               >
-                <span className="absolute left-3 top-3 rounded-lg bg-white/70 px-2 py-1 text-xs font-semibold text-subtle shadow-sm">
+                <span className="absolute left-3 top-3 rounded-lg bg-white/80 px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted shadow-sm">
                   {element.level}
                 </span>
                 <div className="flex h-full flex-col items-center justify-center gap-2">
-                  <span className="font-numeric text-3xl font-semibold tracking-[0.12em] text-text">
+                  <span className="font-display text-3xl leading-none text-text">
                     {element.symbol}
                   </span>
-                  <span className="text-xs font-medium uppercase tracking-[0.3em] text-subtle">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.32em] text-muted">
                     {element.name}
                   </span>
                 </div>
@@ -163,9 +172,10 @@ export const ElementsGrid = () => {
           );
         })}
       </div>
-      <div className="rounded-xl border border-divider/40 bg-background/70 p-4 text-xs text-subtle">
+      <div className="mt-6 rounded-[18px] border border-divider/30 bg-surfaceMuted/50 px-5 py-4 text-xs leading-relaxed text-muted">
         <p>
-          <span className="font-semibold text-text">Niveaux :</span> 1–2 très bas · 3–4 modéré · 5–6 stable · 7–8 haut · 9–10 très élevé.
+          <strong className="text-text">Lecture :</strong> macros en mg/L · traces en µg/L. Les cases dorées signalent les
+          éléments au-dessus du seuil optimal et sont synchronisées avec la section de gauche.
         </p>
       </div>
     </article>

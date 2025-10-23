@@ -5,7 +5,9 @@ import { ELEMENTS } from '../data/elements';
 import { useActiveElement } from '../lib/ActiveElementContext';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 
-const accentColor = '#C8A96A';
+const accentColor = '#C2A050';
+const spokeColor = 'rgba(158, 123, 45, 0.45)';
+const gridColor = 'rgba(109, 87, 54, 0.35)';
 
 const getLevelState = (level: number) => {
   if (level >= 8) return 'High';
@@ -34,52 +36,63 @@ export const RadarPanel = () => {
         center: ['50%', '50%'],
         startAngle: 90,
         splitNumber: 5,
-        nameGap: 16,
+        nameGap: 18,
         name: {
           formatter: (value: string) =>
             `{${value === activeSymbol ? 'active' : 'default'}|${value}}`,
           rich: {
             default: {
-              color: 'rgba(11,11,12,0.58)',
-              fontSize: 12,
+              color: 'rgba(59,45,31,0.58)',
+              fontSize: 13,
               fontWeight: 500,
-              letterSpacing: 0.4,
+              letterSpacing: 1.4,
+              fontFamily: 'DM Sans, system-ui, sans-serif',
             },
             active: {
               color: accentColor,
-              fontSize: 14,
+              fontSize: 15,
               fontWeight: 600,
-              letterSpacing: 0.6,
+              letterSpacing: 1.6,
+              fontFamily: 'DM Sans, system-ui, sans-serif',
             },
           },
         },
         splitArea: {
           areaStyle: {
             color: [
-              'rgba(11,11,12,0.02)',
-              'rgba(11,11,12,0.04)',
-              'rgba(11,11,12,0.06)',
-              'rgba(11,11,12,0.08)',
-              'rgba(11,11,12,0.1)',
+              'rgba(249,242,228,0.72)',
+              'rgba(249,242,228,0.45)',
+              'rgba(249,242,228,0.3)',
+              'rgba(249,242,228,0.2)',
+              'rgba(249,242,228,0.12)',
             ],
           },
         },
         splitLine: {
           lineStyle: {
-            color: 'rgba(11,11,12,0.12)',
+            color: gridColor,
+            width: 1,
           },
         },
         axisLine: {
           lineStyle: {
-            color: 'rgba(11,11,12,0.15)',
+            color: spokeColor,
             width: 1,
           },
         },
         axisName: {
-          color: 'rgba(11,11,12,0.6)',
+          color: 'rgba(59,45,31,0.6)',
+          fontFamily: 'DM Sans, system-ui, sans-serif',
         },
         axisTick: {
           show: false,
+        },
+        axisLabel: {
+          show: true,
+          color: 'rgba(126,106,76,0.78)',
+          fontSize: 10,
+          margin: 6,
+          fontFamily: 'DM Sans, system-ui, sans-serif',
         },
         axisPointer: {
           show: true,
@@ -92,11 +105,11 @@ export const RadarPanel = () => {
       tooltip: {
         trigger: 'axis',
         confine: true,
-        backgroundColor: 'rgba(11,11,12,0.85)',
+        backgroundColor: 'rgba(59,45,31,0.92)',
         borderWidth: 0,
-        padding: [8, 12],
+        padding: [10, 14],
         textStyle: {
-          fontFamily: 'Inter, system-ui, sans-serif',
+          fontFamily: 'DM Sans, system-ui, sans-serif',
           fontSize: 12,
           fontWeight: 500,
         },
@@ -142,7 +155,7 @@ export const RadarPanel = () => {
             width: 0,
           },
           areaStyle: {
-            color: 'rgba(200,169,106,0.12)',
+            color: 'rgba(194,160,80,0.12)',
           },
           animation: false,
           z: 1,
@@ -172,16 +185,16 @@ export const RadarPanel = () => {
                   : undefined;
               return element && element.symbol === activeSymbol
                 ? accentColor
-                : 'rgba(11,11,12,0.75)';
+                : 'rgba(59,45,31,0.82)';
             },
           },
           lineStyle: {
-            color: 'rgba(11,11,12,0.6)',
+            color: 'rgba(59,45,31,0.6)',
             width: 2,
             join: 'round',
           },
           areaStyle: {
-            color: 'rgba(11,11,12,0.18)',
+            color: 'rgba(59,45,31,0.18)',
           },
           emphasis: {
             lineStyle: {
@@ -242,14 +255,20 @@ export const RadarPanel = () => {
   }, [setActiveSymbol]);
 
   return (
-    <article className="flex h-full flex-col gap-4 rounded-card bg-surface/90 p-6 shadow-panel ring-1 ring-divider/40">
-      <div className="space-y-1">
-        <h3 className="text-lg font-semibold text-text">Empreinte minérale — échelle 1–10</h3>
-        <p className="text-sm text-subtle">
-          Chaque anneau représente deux niveaux. Survolez un rayon pour révéler la concentration.
+    <article className="flex h-full flex-col rounded-card border border-divider/40 bg-surface px-7 py-8 shadow-panel">
+      <header className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h3 className="font-display text-[28px] leading-[1.15] text-text">
+            Empreinte minérale
+          </h3>
+          <span className="text-xs uppercase tracking-[0.28em] text-muted/70">Échelle 1 – 10</span>
+        </div>
+        <p className="text-sm leading-relaxed text-muted">
+          Les cercles correspondent aux paliers 2, 4, 6, 8 et 10. Les pointes dorées indiquent les
+          éléments dépassant le profil type du millésime.
         </p>
-      </div>
-      <div className="relative flex-1">
+      </header>
+      <div className="relative mt-6 flex-1">
         <ReactECharts
           style={{ height: '100%', minHeight: 360 }}
           option={option}
@@ -262,10 +281,17 @@ export const RadarPanel = () => {
           }}
         />
       </div>
-      <div className="rounded-xl border border-divider/40 bg-background/70 p-4 text-sm text-subtle">
-        {activeSymbol
-          ? `Focus sur ${activeSymbol} — suivez son niveau dans la matrice à droite.`
-          : 'Survolez un rayon ou sélectionnez un élément pour synchroniser les panneaux.'}
+      <div className="mt-6 rounded-[18px] border border-divider/30 bg-surfaceMuted/50 px-5 py-4 text-sm leading-relaxed text-muted">
+        {activeSymbol ? (
+          <p>
+            <strong className="text-text">{activeSymbol}</strong> — repéré sur l&rsquo;ensemble des panneaux pour une analyse
+            croisée immédiate.
+          </p>
+        ) : (
+          <p>
+            Survolez le radar pour révéler les corrélations ou sélectionnez une case du tableau pour verrouiller un élément.
+          </p>
+        )}
       </div>
     </article>
   );

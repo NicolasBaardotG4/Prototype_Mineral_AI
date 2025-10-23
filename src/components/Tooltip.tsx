@@ -62,7 +62,7 @@ export const Tooltip = ({ content, children, side = 'top' }: TooltipProps) => {
           role="tooltip"
           id={tooltipId}
           className={clsx(
-            'pointer-events-none absolute z-20 max-w-xs rounded-lg bg-text/90 px-3 py-1 text-xs font-medium text-white shadow-lg backdrop-blur',
+            'pointer-events-none absolute z-20 max-w-xs rounded-lg border border-divider/40 bg-[rgba(59,45,31,0.92)] px-3 py-1.5 text-xs font-medium text-surface shadow-lg backdrop-blur',
             sideClassMap[side],
           )}
         >

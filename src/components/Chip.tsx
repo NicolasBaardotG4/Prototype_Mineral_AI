@@ -3,9 +3,9 @@ import { clsx } from 'clsx';
 import type { SampleKeyElement } from '../data/sample';
 
 const stateStyles: Record<'low' | 'normal' | 'high', { label: string; className: string }> = {
-  low: { label: 'Bas', className: 'bg-text/5 text-subtle' },
-  normal: { label: 'Normal', className: 'bg-emerald-100 text-emerald-700' },
-  high: { label: 'Haut', className: 'bg-accent/20 text-accent' },
+  low: { label: 'Bas', className: 'bg-[#F2E2D4] text-[#A06A36]' },
+  normal: { label: 'Normal', className: 'bg-[#EFE7D6] text-muted' },
+  high: { label: 'Haut', className: 'bg-[#E6D4A8] text-accentDark' },
 };
 
 const getStateKey = (state: SampleKeyElement['state']): keyof typeof stateStyles => {
@@ -42,33 +42,33 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
         onBlur={() => onHoverChange?.(null)}
         onClick={() => onActivate?.(element.symbol)}
         className={clsx(
-          'group flex items-center justify-between gap-3 rounded-full border border-divider/40 bg-white/90 px-4 py-3 text-left shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+          'group flex flex-col rounded-[22px] border border-divider/40 bg-surfaceMuted/40 px-5 py-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background',
           active
-            ? 'border-accent/80 bg-accent/10 shadow-panel'
-            : 'hover:border-accent/60 hover:shadow-panel',
+            ? 'border-accent bg-accent/10 shadow-panel'
+            : 'hover:border-accent/70 hover:shadow-panel',
           pulse && 'motion-safe:animate-pulseOutline',
         )}
       >
-        <div className="space-y-1">
-          <p className="text-xs uppercase tracking-[0.24em] text-subtle">
+        <div className="flex items-center justify-between">
+          <p className="text-xs uppercase tracking-[0.36em] text-muted/80">
             {element.symbol}
           </p>
-          <div className="flex items-baseline gap-2">
-            <span className="font-numeric text-lg font-semibold text-text">
-              {element.value}
-              <span className="ml-1 text-xs font-medium text-subtle">{element.unit}</span>
-            </span>
-          </div>
-          <p className="text-sm font-medium text-text/80">{element.label}</p>
+          <span
+            className={clsx(
+              'rounded-pill px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.34em]',
+              state.className,
+            )}
+          >
+            {state.label}
+          </span>
         </div>
-        <span
-          className={clsx(
-            'rounded-pill px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em]',
-            state.className,
-          )}
-        >
-          {state.label}
-        </span>
+        <div className="mt-3 flex items-baseline gap-2">
+          <span className="font-display text-[28px] leading-none text-text">
+            {element.value}
+          </span>
+          <span className="text-xs uppercase tracking-[0.3em] text-muted">{element.unit}</span>
+        </div>
+        <p className="mt-3 text-sm font-medium text-text">{element.label}</p>
       </button>
     );
   },

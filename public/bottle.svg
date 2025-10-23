@@ -11,7 +11,7 @@
   </defs>
   <g filter="url(#shadow)">
     <rect x="16" y="8" width="228" height="548" rx="12" fill="#EDEDED" stroke="#D7D7D7" stroke-width="1" />
-    <text x="130" y="300" text-anchor="middle" font-family="'DM Sans', 'Inter', 'Segoe UI', sans-serif" font-size="24" font-weight="500" fill="#555555" letter-spacing="0.5">
+    <text x="130" y="300" text-anchor="middle" font-family="'DM Sans', 'Segoe UI', sans-serif" font-size="24" font-weight="500" fill="#555555" letter-spacing="0.5">
       Bottle Placeholder
     </text>
   </g>

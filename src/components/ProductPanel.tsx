@@ -45,60 +45,59 @@ export const ProductPanel = () => {
       (element) => element.symbol === activeSymbol,
     );
     if (!activeKeyElement) {
-      return 'Sélectionnez un élément pour afficher son interprétation.';
+      return 'Sélectionnez un élément clé pour synchroniser les panneaux et afficher son interprétation.';
     }
     const hint = stateHint[activeKeyElement.state as keyof typeof stateHint];
     return hint ?? 'Observation détaillée disponible dans le rapport laboratoire.';
   }, [activeSymbol]);
 
   return (
-    <article className="flex h-full flex-col gap-6 rounded-card bg-surface/90 p-6 shadow-panel ring-1 ring-divider/40">
-      <div className="flex flex-col gap-4">
-        <p className="text-sm uppercase tracking-[0.32em] text-subtle">Cuvée</p>
-        <h2 className="text-2xl font-semibold leading-tight text-text">
-          {SAMPLE.productName}
-        </h2>
-        <p className="text-sm text-subtle/80">Analyse certifiée par laboratoire partenaire.</p>
-      </div>
-      <div className="relative flex justify-center rounded-[22px] bg-gradient-to-b from-white/60 via-white to-white/60 p-6 shadow-inset">
-        <img
-          src={bottleSrc}
-          alt="Bouteille de Chardonnay"
-          className="h-72 w-auto drop-shadow-xl"
-          loading="lazy"
-        />
-      </div>
-      <section className="space-y-4">
-        <div className="flex items-baseline justify-between">
-          <h3 className="text-lg font-semibold text-text">Éléments clés (mg/L)</h3>
-          <span className="text-xs text-subtle">Mise à jour laboratoire — Avril 2024</span>
+    <article className="flex h-full flex-col rounded-card border border-divider/40 bg-surface px-7 py-8 shadow-panel">
+      <header className="space-y-3">
+        <div className="flex items-start justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.38em] text-muted">Éléments clés</p>
+            <h2 className="font-display text-3xl text-text">Sélection minérale</h2>
+          </div>
+          <span className="text-xs uppercase tracking-[0.28em] text-muted/80">Lot 03 · 2023</span>
         </div>
-        <div className="grid gap-3">
-          {SAMPLE.keyElements.map((element) => (
-            <Chip
-              key={element.symbol}
-              element={element}
-              active={activeSymbol === element.symbol}
-              pulse={pulseSymbol === element.symbol}
-              onActivate={(symbol) =>
-                pinSymbol(symbol === activeSymbol ? null : symbol)
-              }
-              onHoverChange={(symbol) => {
-                if (!symbol) {
-                  if (activeSymbol === element.symbol) {
-                    setActiveSymbol(null);
-                  }
-                } else {
-                  setActiveSymbol(symbol);
+        <p className="text-sm leading-relaxed text-muted">{description}</p>
+      </header>
+      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {SAMPLE.keyElements.map((element) => (
+          <Chip
+            key={element.symbol}
+            element={element}
+            active={activeSymbol === element.symbol}
+            pulse={pulseSymbol === element.symbol}
+            onActivate={(symbol) => pinSymbol(symbol === activeSymbol ? null : symbol)}
+            onHoverChange={(symbol) => {
+              if (!symbol) {
+                if (activeSymbol === element.symbol) {
+                  setActiveSymbol(null);
                 }
-              }}
-            />
-          ))}
+              } else {
+                setActiveSymbol(symbol);
+              }
+            }}
+          />
+        ))}
+      </div>
+      <div className="mt-8 flex flex-1 flex-col items-center justify-end gap-6">
+        <div className="relative w-full max-w-[240px] rounded-[32px] border border-divider/30 bg-surfaceMuted/80 px-6 py-8 shadow-inset">
+          <img
+            src={bottleSrc}
+            alt="Bouteille de Chardonnay"
+            className="mx-auto h-[320px] w-auto object-contain"
+            loading="lazy"
+          />
         </div>
-      </section>
-      <footer className="rounded-xl border border-divider/60 bg-background/80 p-4 text-sm text-subtle">
-        {description}
-      </footer>
+        <div className="text-center text-sm text-muted">
+          <p className="text-xs uppercase tracking-[0.36em] text-muted/80">JUST Perfect</p>
+          <p className="font-display text-xl text-text text-balance">{SAMPLE.productName}</p>
+          <p className="text-xs uppercase tracking-[0.28em] text-muted/70">Cuvée signature</p>
+        </div>
+      </div>
     </article>
   );
 };

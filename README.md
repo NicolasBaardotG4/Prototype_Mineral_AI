@@ -35,7 +35,7 @@ npm run format    # format source files with Prettier
 ## Customisation
 
 - Replace `public/bottle.svg` with the final product shot (transparent PNG or SVG recommended).
-- Add any design reference imagery you need under `public/` (for example, export files from Figma) — keep them lightweight and remove them when they are no longer required.
+- Optionally add lightweight design reference imagery under `public/` while iterating, then remove it to keep the repository binary-light.
 - Edit `/src/data/sample.ts` to change the cuvée name or featured key elements.
 - Edit `/src/data/elements.ts` to update the mineral matrix values, categories or order.
 
@@ -45,6 +45,8 @@ npm run format    # format source files with Prettier
 - [Apache ECharts](https://echarts.apache.org/) renders the interactive radar chart via `echarts-for-react`.
 - Icons provided by [lucide-react](https://github.com/lucide-icons/lucide) (import where needed).
 - ESLint + Prettier enforce consistent code style (`npm run lint` / `npm run format`).
+
+Typography is handled via Google Fonts: DM Serif Display for headings and DM Sans for UI copy.
 
 ## Deployment
 
